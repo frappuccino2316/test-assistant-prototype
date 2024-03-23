@@ -56,3 +56,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 const btn = document.getElementById('addButton');
 btn!.addEventListener('click', addDomain);
+
+async function getCurrentTab() {
+  let queryOptions = { active: true, lastFocusedWindow: true };
+  // `tab` will either be a `tabs.Tab` instance or `undefined`.
+  let [tab] = await chrome.tabs.query(queryOptions);
+  return tab;
+}
+
+const promise = getCurrentTab();
+promise.then((value) => {
+  console.log(value);
+});
