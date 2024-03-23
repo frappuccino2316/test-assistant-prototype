@@ -1,16 +1,16 @@
 // 最初に実行したい処理をまとめた
-function main() {
+const main = () => {
   document.addEventListener('DOMContentLoaded', function () {
     renderConfiguredDomains();
   });
 
   const btn = document.getElementById('addButton');
   btn!.addEventListener('click', addDomain);
-}
+};
 
 main();
 
-async function renderConfiguredDomains() {
+const renderConfiguredDomains = async () => {
   const domainList = document.getElementById('domainList');
   if (domainList === null) {
     return;
@@ -35,7 +35,7 @@ async function renderConfiguredDomains() {
     });
     listItem.appendChild(removeButton);
   });
-}
+};
 
 // 設定済みドメインの取得
 const getConfiguredDmains = async (): Promise<string[]> => {
@@ -44,7 +44,7 @@ const getConfiguredDmains = async (): Promise<string[]> => {
   return configuredDomains;
 };
 
-async function addDomain() {
+const addDomain = async () => {
   const domainInput = <HTMLInputElement>document.getElementById('domainInput');
   const domain = domainInput.value.trim();
   if (domain) {
@@ -54,9 +54,9 @@ async function addDomain() {
     renderConfiguredDomains();
     domainInput.value = '';
   }
-}
+};
 
-async function removeDomain(domainToRemove: string) {
+const removeDomain = async (domainToRemove: string) => {
   let domains = await getConfiguredDmains();
   const newDomains = domains.filter(function (domain) {
     return domain !== domainToRemove;
@@ -64,10 +64,10 @@ async function removeDomain(domainToRemove: string) {
   await chrome.storage.local.set({ configuredDomains: newDomains });
 
   renderConfiguredDomains();
-}
+};
 
-async function getCurrentTab() {
+const getCurrentTab = async () => {
   let queryOptions = { active: true, lastFocusedWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
   return tab;
-}
+};
