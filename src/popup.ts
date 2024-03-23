@@ -1,5 +1,4 @@
 function main() {
-  // Render pre-configured domains when the page loads
   document.addEventListener('DOMContentLoaded', function () {
     renderConfiguredDomains();
   });
@@ -10,7 +9,6 @@ function main() {
 
 main();
 
-// Function to render pre-configured domains
 async function renderConfiguredDomains() {
   const domainList = document.getElementById('domainList');
   if (domainList === null) {
@@ -44,7 +42,6 @@ const getConfiguredDmains = async (): Promise<string[]> => {
   return configuredDomains;
 };
 
-// Function to add a new domain
 async function addDomain() {
   const domainInput = <HTMLInputElement>document.getElementById('domainInput');
   const domain = domainInput.value.trim();
@@ -57,7 +54,6 @@ async function addDomain() {
   }
 }
 
-// Function to remove a domain
 async function removeDomain(domainToRemove: string) {
   let domains = await getConfiguredDmains();
   const newDomains = domains.filter(function (domain) {
@@ -70,7 +66,6 @@ async function removeDomain(domainToRemove: string) {
 
 async function getCurrentTab() {
   let queryOptions = { active: true, lastFocusedWindow: true };
-  // `tab` will either be a `tabs.Tab` instance or `undefined`.
   let [tab] = await chrome.tabs.query(queryOptions);
   return tab;
 }
