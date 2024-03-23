@@ -8,8 +8,6 @@ const main = () => {
   btn!.addEventListener('click', addDomain);
 };
 
-main();
-
 const renderConfiguredDomains = async () => {
   const domainList = document.getElementById('domainList');
   if (domainList === null) {
@@ -71,3 +69,5 @@ const getCurrentTab = async () => {
   let [tab] = await chrome.tabs.query(queryOptions);
   return tab;
 };
+
+main();
