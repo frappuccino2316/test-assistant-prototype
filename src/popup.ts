@@ -1,5 +1,17 @@
+function main() {
+  // Render pre-configured domains when the page loads
+  document.addEventListener('DOMContentLoaded', function () {
+    renderConfiguredDomains();
+  });
+
+  const btn = document.getElementById('addButton');
+  btn!.addEventListener('click', addDomain);
+}
+
+main();
+
 // Function to render pre-configured domains
-async function renderPreConfiguredDomains() {
+async function renderConfiguredDomains() {
   const domainList = document.getElementById('domainList');
   if (domainList === null) {
     return;
@@ -40,7 +52,7 @@ async function addDomain() {
     const domains = await getConfiguredDmains();
     domains.push(domain);
     await chrome.storage.local.set({ configuredDomains: domains });
-    renderPreConfiguredDomains();
+    renderConfiguredDomains();
     domainInput.value = '';
   }
 }
@@ -53,16 +65,8 @@ async function removeDomain(domainToRemove: string) {
   });
   await chrome.storage.local.set({ configuredDomains: newDomains });
 
-  renderPreConfiguredDomains();
+  renderConfiguredDomains();
 }
-
-// Render pre-configured domains when the page loads
-document.addEventListener('DOMContentLoaded', function () {
-  renderPreConfiguredDomains();
-});
-
-const btn = document.getElementById('addButton');
-btn!.addEventListener('click', addDomain);
 
 async function getCurrentTab() {
   let queryOptions = { active: true, lastFocusedWindow: true };
