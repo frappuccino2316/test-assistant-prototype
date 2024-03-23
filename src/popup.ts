@@ -1,16 +1,12 @@
-console.log('test');
-
-// Sample pre-configured domains
-let preConfiguredDomains = ['example.com', 'subdomain.example.com', 'anotherexample.com'];
-
 // Function to render pre-configured domains
-function renderPreConfiguredDomains() {
+async function renderPreConfiguredDomains() {
   const domainList = document.getElementById('domainList');
   if (domainList === null) {
     return;
   }
   domainList.innerHTML = '';
-  preConfiguredDomains.forEach(function (domain) {
+  const configuredDomains: string[] = await getConfiguredDmains();
+  configuredDomains.forEach(function (domain) {
     const listItem = document.createElement('li');
     const domainItem = document.createElement('span');
     domainItem.classList.add('domain-item');
@@ -30,22 +26,33 @@ function renderPreConfiguredDomains() {
   });
 }
 
+const getConfiguredDmains = async (): Promise<string[]> => {
+  const storage = await chrome.storage.local.get('configuredDomains');
+  const configuredDomains: string[] = storage.configuredDomains ? storage.configuredDomains : [];
+  return configuredDomains;
+};
+
 // Function to add a new domain
-function addDomain() {
+async function addDomain() {
   const domainInput = <HTMLInputElement>document.getElementById('domainInput');
   const domain = domainInput.value.trim();
   if (domain) {
-    preConfiguredDomains.push(domain);
+    const domains = await getConfiguredDmains();
+    domains.push(domain);
+    await chrome.storage.local.set({ configuredDomains: domains });
     renderPreConfiguredDomains();
     domainInput.value = '';
   }
 }
 
 // Function to remove a domain
-function removeDomain(domainToRemove: string) {
-  preConfiguredDomains = preConfiguredDomains.filter(function (domain) {
+async function removeDomain(domainToRemove: string) {
+  let domains = await getConfiguredDmains();
+  const newDomains = domains.filter(function (domain) {
     return domain !== domainToRemove;
   });
+  await chrome.storage.local.set({ configuredDomains: newDomains });
+
   renderPreConfiguredDomains();
 }
 
@@ -63,8 +70,3 @@ async function getCurrentTab() {
   let [tab] = await chrome.tabs.query(queryOptions);
   return tab;
 }
-
-const promise = getCurrentTab();
-promise.then((value) => {
-  console.log(value);
-});
