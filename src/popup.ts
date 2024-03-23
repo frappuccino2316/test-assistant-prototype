@@ -1,5 +1,7 @@
 // 最初に実行したい処理をまとめた
 const main = () => {
+  includeDomain();
+
   document.addEventListener('DOMContentLoaded', function () {
     renderConfiguredDomains();
   });
@@ -62,6 +64,19 @@ const removeDomain = async (domainToRemove: string) => {
   await chrome.storage.local.set({ configuredDomains: newDomains });
 
   renderConfiguredDomains();
+};
+
+const includeDomain = async () => {
+  const currentTab = await getCurrentTab();
+  const currentDomain = currentTab.url?.split('/')[2];
+  const configuredDomains: string[] = await getConfiguredDmains();
+  if (currentDomain === undefined) {
+    return false;
+  }
+  if (configuredDomains.includes(currentDomain)) {
+    return true;
+  }
+  return false;
 };
 
 const getCurrentTab = async () => {
