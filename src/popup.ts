@@ -1,3 +1,4 @@
+// 最初に実行したい処理をまとめた
 function main() {
   document.addEventListener('DOMContentLoaded', function () {
     renderConfiguredDomains();
@@ -9,6 +10,7 @@ function main() {
 
 main();
 
+//
 async function renderConfiguredDomains() {
   const domainList = document.getElementById('domainList');
   if (domainList === null) {
@@ -17,15 +19,15 @@ async function renderConfiguredDomains() {
   domainList.innerHTML = '';
   const configuredDomains: string[] = await getConfiguredDmains();
   configuredDomains.forEach(function (domain) {
+    // 設定済みドメインの表示
     const listItem = document.createElement('li');
     const domainItem = document.createElement('span');
     domainItem.classList.add('domain-item');
     domainItem.textContent = domain;
     listItem.appendChild(domainItem);
-    if (domainList === null) {
-      return;
-    }
     domainList.appendChild(listItem);
+
+    // 削除用ボタンの表示
     const removeButton = document.createElement('span');
     removeButton.classList.add('remove-domain');
     removeButton.textContent = '❌';
@@ -36,6 +38,7 @@ async function renderConfiguredDomains() {
   });
 }
 
+// 設定済みドメインの取得
 const getConfiguredDmains = async (): Promise<string[]> => {
   const storage = await chrome.storage.local.get('configuredDomains');
   const configuredDomains: string[] = storage.configuredDomains ? storage.configuredDomains : [];
