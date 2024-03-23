@@ -8,6 +8,7 @@
     "build": "tsc --noEmit && vite build --emptyOutDir",
     "preview": "vite preview"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
