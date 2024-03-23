@@ -10,7 +10,6 @@ function main() {
 
 main();
 
-//
 async function renderConfiguredDomains() {
   const domainList = document.getElementById('domainList');
   if (domainList === null) {
