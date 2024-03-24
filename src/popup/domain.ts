@@ -56,9 +56,9 @@ export const removeDomain = async (domainToRemove: string) => {
   renderConfiguredDomains();
 };
 
-export const includeDomain = async () => {
-  const currentTab = await getCurrentTab();
-  const currentDomain = currentTab.url?.split('/')[2];
+export const includeDomain = async (currentDomain: string): Promise<boolean> => {
+  // const currentTab = await getCurrentTab();
+  // const currentDomain = currentTab.url?.split('/')[2];
   const configuredDomains: string[] = await getConfiguredDmains();
   if (currentDomain === undefined) {
     return false;
@@ -68,3 +68,17 @@ export const includeDomain = async () => {
   }
   return false;
 };
+
+// 現在のページのドメインを取得して設定と比較する
+// export const includeDomain = async () => {
+//   const currentTab = await getCurrentTab();
+//   const currentDomain = currentTab.url?.split('/')[2];
+//   const configuredDomains: string[] = await getConfiguredDmains();
+//   if (currentDomain === undefined) {
+//     return false;
+//   }
+//   if (configuredDomains.includes(currentDomain)) {
+//     return true;
+//   }
+//   return false;
+// };

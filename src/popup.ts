@@ -1,6 +1,4 @@
-import { includeDomain, addDomain, renderConfiguredDomains } from './popup/domain';
-
-includeDomain();
+import { addDomain, renderConfiguredDomains } from './popup/domain';
 
 document.addEventListener('DOMContentLoaded', function () {
   renderConfiguredDomains();
